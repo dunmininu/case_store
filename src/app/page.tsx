@@ -206,7 +206,7 @@ export default function Home() {
             </div>
           </ul>
 
-
+          
         </MaxWidthWrapper>
       </section>
 
