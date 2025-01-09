@@ -2,7 +2,9 @@ import { Icons } from "@/components/icons";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import Phone from "@/components/Phone";
 import { Reviews } from "@/components/Reviews";
-import { Check, Star } from "lucide-react";
+import { buttonVariants } from "@/components/ui/button";
+import { ArrowRight, Check, Star } from "lucide-react";
+import Link from "next/dist/client/link";
 
 export default function Home() {
   return (
@@ -30,10 +32,10 @@ export default function Home() {
                     <Check className="h-5 w-5 shrink-0 text-blue-400"/> High Quality, durable material
                   </li>
                   <li className="flex gap-1.5 items-center text-left">
-                    <Check className="h-5 w-5 shrink-0 text-blue-400"/> 6 Months Print Guarantee
+                    <Check className="h-5 w-5 shrink-0 text-blue-400"/> 12 Months Print Guarantee
                   </li>
                   <li className="flex gap-1.5 items-center text-left">
-                    <Check className="h-5 w-5 shrink-0 text-blue-400"/> Modern Iphone Models supported
+                    <Check className="h-5 w-5 shrink-0 text-blue-400"/> Modern Iphone and Samsung Models supported
                   </li>
                   <div className="mt-12 flex flex-col sm:flex-row items-center sm:items-start gap-5">
                     <div className="flex -space-x-4">
@@ -169,9 +171,42 @@ export default function Home() {
             >
               {/* absolute, md:top-1/2 -translate-y-1/2 center the element veritically */}
               <img src="arrow.png" alt="" className="absolute top-[25rem] md:top-1/2 -translate-y-1/2 z-10 left-1/2 -translate-x-1/2 rotate-90 md:rotate-0"/>
-              <div className="relative h-80 md:j"></div>
+              <div className="relative h-80 md:h-full w-full md:justify-self-end max-w-sm rounded-xl bg-gray-900/5 ring-inset ring-gray-900/10 lg:rounded-2xl">
+                <img src="horse.jpg" alt="" className="rounded-md object-cover bg-white shadow-2xl ring-1 ring-gray-900/10 h-full w-full"/>
+              </div>
+              <Phone className="w-60" imgSrc="horse_phone.jpg"/>
             </div>
           </div>
+
+          <ul className="mx-auto mt-12 max-w-prose sm:text-lg space-y-2 w-fit">
+            <li className="w-fit">
+              <Check className="h-5 w-5 test-green-600 inline mr-1.5" />
+              High-quality silicone material
+              </li>
+            <li className="w-fit">
+              <Check className="h-5 w-5 test-green-600 inline mr-1.5" />
+              Fingerprint and Scratch Resistant
+              </li>
+            <li className="w-fit">
+              <Check className="h-5 w-5 test-green-600 inline mr-1.5" />
+              Wireless Charging Compatible
+              </li>
+            <li className="w-fit">
+              <Check className="h-5 w-5 test-green-600 inline mr-1.5" />
+              5 year print quality
+            </li>
+            
+            <div className="flex justify-center">
+              <Link className={
+                buttonVariants({
+                  size: 'lg',
+                  className: 'mx-auto mt-8'
+                })
+              } href='/configure/upload'>Create your case now <ArrowRight className="h-4 w-4 ml-1.5"/></Link>
+            </div>
+          </ul>
+
+
         </MaxWidthWrapper>
       </section>
 
