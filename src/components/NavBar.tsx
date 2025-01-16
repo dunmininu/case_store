@@ -12,12 +12,12 @@ const Navbar = async () => {
 
     return (
         <nav className="sticky z-[100] h-20 inset-x-0 top-0 w-full border-b border-gray-200 bg-white/75 backdrop-blur-lg transition-all">
-            <MaxWidthWrapper className="">
+            <MaxWidthWrapper>
                 <div className="flex h-20 items-center justify-between border-b border-zinc-200">
                     <Link href="/" className="flex z-40 font-semibold">
                         <img 
                             className="h-20 w-auto"
-                            src="PsyShop-removebg-preview.png" 
+                            src="/PsyShop-removebg-preview.png" 
                             alt="Logo" 
                         />
                     </Link>

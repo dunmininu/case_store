@@ -23,9 +23,6 @@ export function ReviewGrid() {
     const column1 = columns[0]
     const column2 = columns[1]
     const column3 = splitArray(columns[2], 2)
-    console.log(column3)
-    console.log("col1")
-    console.log(column3)
     
     return <div
         ref={containerRef}
