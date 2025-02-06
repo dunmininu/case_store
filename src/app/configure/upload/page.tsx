@@ -7,6 +7,7 @@ import Dropzone, { FileRejection } from 'react-dropzone'
 import { CldImage } from 'next-cloudinary'
 import { useRouter } from 'next/navigation'
 import { useToast } from '@/hooks/use-toast'
+import { processImageConfiguration, updateConfigurationCroppedImage } from './action'
 
 const Page = () => {
   const { toast } = useToast()
@@ -15,7 +16,32 @@ const Page = () => {
   const [isUploading, setIsUploading] = useState(false)
   const [isPending, startTransition] = useTransition()
   const [uploadedImage, setUploadedImage] = useState<string | null>(null)
+  const [croppedImageUrl, setCroppedImageUrl] = useState<string>('')
   const router = useRouter()
+
+  const handleCroppedImage = async (newCroppedUrl: string) => {
+    setCroppedImageUrl(newCroppedUrl)
+    if (uploadedImage) {
+      try {
+        const result = await updateConfigurationCroppedImage(uploadedImage, newCroppedUrl)
+        toast({
+          title: "Success",
+          description: "Cropped image updated successfully"
+        })
+        // // Optionally redirect to design page
+        // startTransition(() => {
+        //   router.push(`/design/${result.configId}`)
+        // })
+      } catch (error) {
+        toast({
+          title: "Error",
+          description: "Failed to update cropped image",
+          variant: "destructive"
+        })
+        console.log(error)
+      }
+    }
+  }
 
   const onDropAccepted = async (acceptedFiles: File[]) => {
     const file = acceptedFiles[0]
@@ -37,7 +63,7 @@ const Page = () => {
         {
           method: 'POST',
           body: formData,
-        },
+        }
       )
 
       clearInterval(progressInterval)
@@ -50,17 +76,21 @@ const Page = () => {
       setUploadedImage(data.public_id)
       setUploadProgress(100)
 
-      // After successful upload, redirect using startTransition
-      startTransition(() => {
-        // use any of these patterns depending on your needs:
-        router.push(`/configure/design?id=${data.public_id}`)
-        // or
-        // router.push(`/configure/design/${data.public_id}`)
-        // or pass multiple parameters
-        // router.push(`/configure/design?image=${data.public_id}&folder=${data.folder}`)
+      // Process the initial image configuration
+      const result = await processImageConfiguration(data.public_id)
+      
+      toast({
+        title: "Success",
+        description: "Image uploaded successfully"
       })
+
     } catch (error) {
       console.error('Upload failed:', error)
+      toast({
+        title: "Error",
+        description: "Failed to upload image",
+        variant: "destructive"
+      })
     } finally {
       setIsUploading(false)
     }
