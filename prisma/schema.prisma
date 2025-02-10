@@ -190,13 +190,33 @@ model DeviceBrand {
   id     String        @id @default(cuid())
   name   String        @unique
   models DeviceModel[]
+
+  @@index([name])
 }
 
 model DeviceModel {
   id            String      @id @default(cuid())
   name          String
+  basePrice     Int         @default(1000) // Base price in Naira for this model
   deviceBrand   DeviceBrand @relation(fields: [deviceBrandId], references: [id])
   deviceBrandId String
 
   @@unique([name, deviceBrandId])
+  @@index([name, deviceBrandId])
+  @@index([basePrice])
+}
+
+model PriceCalculationLog {
+  id               String   @id @default(cuid())
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  deviceModelId    String
+  caseType         String
+  hasPremiumFinish Boolean
+  country          String
+  calculatedAmount Float
+  currency         String
+
+  @@index([createdAt])
+  @@index([deviceModelId])
 }

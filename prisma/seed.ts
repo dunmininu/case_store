@@ -1,80 +1,80 @@
 import { PrismaClient } from '@prisma/client';
 
-const prisma = new PrismaClient();
+const db = new PrismaClient()
 
 async function main() {
   // Delete existing data (optional)
-  await prisma.deviceModel.deleteMany();
-  await prisma.deviceBrand.deleteMany();
+  await db.deviceModel.deleteMany();
+  await db.deviceBrand.deleteMany();
 
   // Preload data
   const brands = [
     {
       name: 'iPhone',
       models: [
-        { name: 'iPhone 16 Pro Max' },
-        { name: 'iPhone 16 Pro' },
-        { name: 'iPhone 16 Plus' },
-        { name: 'iPhone 16' },
-        { name: 'iPhone 15 Pro Max' },
-        { name: 'iPhone 15 Pro' },
-        { name: 'iPhone 15 Plus' },
-        { name: 'iPhone 15' },
-        { name: 'iPhone 14 Pro Max' },
-        { name: 'iPhone 14 Pro' },
-        { name: 'iPhone 14 Plus' },
-        { name: 'iPhone 14' },
-        { name: 'iPhone 13 Pro Max' },
-        { name: 'iPhone 13 Pro' },
-        { name: 'iPhone 13 Mini' },
-        { name: 'iPhone 13' },
-        { name: 'iPhone 12 Pro Max' },
-        { name: 'iPhone 12 Pro' },
-        { name: 'iPhone 12 Mini' },
-        { name: 'iPhone 12' },
-        { name: 'iPhone 11 Pro Max' },
-        { name: 'iPhone 11 Pro' },
-        { name: 'iPhone 11' },
-        { name: 'iPhone XS Max' },
-        { name: 'iPhone XS' },
-        { name: 'iPhone XR' },
-        { name: 'iPhone X' },
+        { name: 'iPhone 16 Pro Max', basePrice: 8000},
+        { name: 'iPhone 16 Pro', basePrice: 8000},
+        { name: 'iPhone 16 Plus', basePrice: 8000},
+        { name: 'iPhone 16', basePrice: 8000},
+        { name: 'iPhone 15 Pro Max', basePrice: 7000},
+        { name: 'iPhone 15 Pro', basePrice: 7000},
+        { name: 'iPhone 15 Plus', basePrice: 7000},
+        { name: 'iPhone 15', basePrice: 7000},
+        { name: 'iPhone 14 Pro Max', basePrice: 6000},
+        { name: 'iPhone 14 Pro', basePrice: 6000},
+        { name: 'iPhone 14 Plus', basePrice: 6000},
+        { name: 'iPhone 14', basePrice: 6000},
+        { name: 'iPhone 13 Pro Max', basePrice: 5500},
+        { name: 'iPhone 13 Pro', basePrice: 5500},
+        { name: 'iPhone 13 Mini', basePrice: 5500},
+        { name: 'iPhone 13', basePrice: 5500},
+        { name: 'iPhone 12 Pro Max', basePrice: 2500},
+        { name: 'iPhone 12 Pro', basePrice: 2500},
+        { name: 'iPhone 12 Mini', basePrice: 2500},
+        { name: 'iPhone 12', basePrice: 2500},
+        { name: 'iPhone 11 Pro Max', basePrice: 2000},
+        { name: 'iPhone 11 Pro', basePrice: 2000},
+        { name: 'iPhone 11', basePrice: 2000},
+        { name: 'iPhone XS Max', basePrice: 2000},
+        { name: 'iPhone XS', basePrice: 2000},
+        { name: 'iPhone XR', basePrice: 2000},
+        { name: 'iPhone X', basePrice: 2000},
       ],
     },
     {
       name: 'Samsung',
       models: [
-        { name: 'Galaxy S25 Ultra' },
-        { name: 'Galaxy S25+' },
-        { name: 'Galaxy S25' },
-        { name: 'Galaxy S24 Ultra' },
-        { name: 'Galaxy S24+' },
-        { name: 'Galaxy S24' },
-        { name: 'Galaxy S23 Ultra' },
-        { name: 'Galaxy S23+' },
-        { name: 'Galaxy S23' },
-        { name: 'Galaxy S22 Ultra' },
-        { name: 'Galaxy S22+' },
-        { name: 'Galaxy S22' },
-        { name: 'Galaxy S21 Ultra' },
-        { name: 'Galaxy S21+' },
-        { name: 'Galaxy S21' },
-        { name: 'Galaxy S20 Ultra' },
-        { name: 'Galaxy S20+' },
-        { name: 'Galaxy S20' },
-        { name: 'Galaxy S10+' },
-        { name: 'Galaxy S10' },
-        { name: 'Galaxy S9' },
-        { name: 'Galaxy Z Flip' },
-        { name: 'Galaxy Z Fold' },
-        { name: 'Galaxy A54' },
+        { name: 'Galaxy S25 Ultra', basePrice: 7000},
+        { name: 'Galaxy S25+', basePrice: 7000},
+        { name: 'Galaxy S25', basePrice: 7000},
+        { name: 'Galaxy S24 Ultra', basePrice: 6000},
+        { name: 'Galaxy S24+', basePrice: 6000},
+        { name: 'Galaxy S24', basePrice: 6000},
+        { name: 'Galaxy S23 Ultra', basePrice: 4000},
+        { name: 'Galaxy S23+', basePrice: 4000},
+        { name: 'Galaxy S23', basePrice: 4000},
+        { name: 'Galaxy S22 Ultra', basePrice: 3500},
+        { name: 'Galaxy S22+', basePrice: 3500},
+        { name: 'Galaxy S22', basePrice: 3500},
+        { name: 'Galaxy S21 Ultra', basePrice: 2500},
+        { name: 'Galaxy S21+', basePrice: 2500},
+        { name: 'Galaxy S21', basePrice: 2500},
+        { name: 'Galaxy S20 Ultra', basePrice: 2000},
+        { name: 'Galaxy S20+', basePrice: 2000},
+        { name: 'Galaxy S20', basePrice: 2000},
+        { name: 'Galaxy S10+', basePrice: 2000},
+        { name: 'Galaxy S10', basePrice: 2000},
+        { name: 'Galaxy S9', basePrice: 2000},
+        { name: 'Galaxy Z Flip', basePrice: 10000},
+        { name: 'Galaxy Z Fold', basePrice: 10000},
+        { name: 'Galaxy A54', basePrice: 2000},
       ],
     },
   ];
   
 
   for (const brandData of brands) {
-    await prisma.deviceBrand.create({
+    await db.deviceBrand.create({
       data: {
         name: brandData.name,
         models: {
@@ -93,5 +93,5 @@ main()
     process.exit(1);
   })
   .finally(async () => {
-    await prisma.$disconnect();
+    await db.$disconnect();
   });
